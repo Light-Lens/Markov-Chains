@@ -3,11 +3,13 @@ import random, json, sys, os
 def readArgs():
     length = 50
     filename = "dict.json"
+    startingWord = ""
     numArgs = len(sys.argv) - 1
     if numArgs >= 1: length = int(sys.argv[1])
-    if numArgs >= 2: filename = sys.argv[2]
+    if numArgs >= 2: startingWord = sys.argv[2]
+    if numArgs >= 3: filename = sys.argv[3]
 
-    return length, filename
+    return length, filename, startingWord
 
 def loadDict(filename):
     if not os.path.exists(filename): sys.exit("Error: Dict.json not found")
@@ -35,13 +37,19 @@ def getNextWord(lastWord, dict):
         return candidatesNormalized[rnd]
 
 def main():
-    length, filename = readArgs()
+    length, filename, startingWord = readArgs()
     dictionary = loadDict(filename)
-    lastWord = "~" * 15
-    result = ""
+    if startingWord == "":
+        lastWord = "~" * 15
+        result = ""
+
+    else:
+        lastWord = startingWord
+        result = f"{lastWord} "
+
     for i in range(0, length):
         newWord = getNextWord(lastWord, dictionary)
-        result += f" {newWord}"
+        result += f"{newWord} "
         lastWord = newWord
 
     print(result)
