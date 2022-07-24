@@ -39,10 +39,13 @@ def main():
     dictionary = loadDict(dictFile)
     if inputFile == "":
         while True:
-            userInput = input("> ")
-            if userInput == "": break
-            dictionary = learn(dictionary, userInput)
-            updateFile(dictFile, dictionary)
+            try:
+                userInput = input("> ")
+                if userInput == "": break
+                dictionary = learn(dictionary, userInput)
+                updateFile(dictFile, dictionary)
+
+            except KeyboardInterrupt as e: sys.exit("INFO: Exiting learn.py")
 
     else: print("Not found")
 
